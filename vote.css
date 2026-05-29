@@ -14,7 +14,7 @@ body {
 }
 
 .page {
-  width: min(1000px, 90vw);
+  width: min(1050px, 92vw);
   margin: 0 auto;
   padding: 42px 0 80px;
   text-align: center;
@@ -43,10 +43,9 @@ body {
 
 .vote-card {
   position: relative;
-  width: min(720px, 92vw);
-  height: 520px;
+  width: min(760px, 92vw);
   margin: 48px auto 36px;
-  padding: 28px;
+  padding: 78px 54px 70px 80px;
   border: 1px solid rgba(216, 164, 106, 0.55);
   border-radius: 28px;
   background: linear-gradient(145deg, #17100b, #050505);
@@ -56,36 +55,44 @@ body {
 .vote-pole {
   position: relative;
   width: 100%;
-  height: 390px;
-  border: 1px solid rgba(255, 199, 44, 0.6);
+  height: 400px;
+  border-left: 2px solid rgba(255, 199, 44, 0.85);
+  border-bottom: 2px solid rgba(255, 199, 44, 0.85);
   background:
     linear-gradient(rgba(255,255,255,0.055) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255,255,255,0.055) 1px, transparent 1px),
     radial-gradient(circle at center, rgba(216, 164, 106, 0.12), transparent 55%);
   background-size: 100% 20%, 10% 100%, 100% 100%;
-  border-radius: 18px;
+  border-radius: 18px 18px 4px 4px;
   cursor: crosshair;
-  overflow: hidden;
+  overflow: visible;
 }
 
-.center-line-x,
-.center-line-y {
+.axis-x {
   position: absolute;
-  background: rgba(255, 199, 44, 0.45);
-}
-
-.center-line-x {
   left: 0;
-  top: 50%;
+  bottom: 0;
   width: 100%;
   height: 1px;
+  background: rgba(255, 199, 44, 0.35);
 }
 
-.center-line-y {
-  top: 0;
+.axis-y {
+  position: absolute;
   left: 50%;
+  bottom: 0;
   width: 1px;
   height: 100%;
+  background: rgba(255, 199, 44, 0.35);
+}
+
+.zero-line {
+  position: absolute;
+  left: 50%;
+  bottom: -8px;
+  width: 1px;
+  height: 16px;
+  background: #ffc72c;
 }
 
 .dot {
@@ -107,29 +114,58 @@ body {
   z-index: 5;
 }
 
-.axis-label {
+.axis-title {
   position: absolute;
   color: #f2c99b;
-  font-size: 16px;
-  letter-spacing: 2px;
+  font-size: 18px;
+  letter-spacing: 3px;
 }
 
-.y-label {
-  left: -38px;
-  top: 210px;
+.y-title {
+  left: 18px;
+  top: 45%;
   transform: rotate(-90deg);
 }
 
-.x-label {
-  bottom: -36px;
+.x-title {
+  bottom: 32px;
   left: 50%;
   transform: translateX(-50%);
 }
 
 .hint {
-  margin-top: 18px;
+  position: absolute;
+  left: 50%;
+  top: 52px;
+  transform: translateX(-50%);
   color: #9f7550;
   font-size: 15px;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.axis-number {
+  position: absolute;
+  color: #c99a67;
+  font-size: 13px;
+  pointer-events: none;
+}
+
+.x-number {
+  bottom: -28px;
+  transform: translateX(-50%);
+}
+
+.y-number {
+  left: -30px;
+  transform: translateY(50%);
+}
+
+.button-row {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  flex-wrap: wrap;
 }
 
 .blob-button {
@@ -137,7 +173,7 @@ body {
   align-items: center;
   justify-content: center;
   width: 230px;
-  height: 120px;
+  height: 118px;
   border-radius: 55% 45% 60% 40% / 45% 55% 45% 55%;
   background: linear-gradient(145deg, #2a211b, #050505);
   border: 1px solid rgba(216, 164, 106, 0.8);
@@ -147,10 +183,51 @@ body {
   letter-spacing: 3px;
   box-shadow: 0 0 25px rgba(216, 164, 106, 0.22);
   transition: 0.25s;
+  cursor: pointer;
+  font-family: Georgia, "Noto Serif TC", serif;
 }
 
 .blob-button:hover {
   transform: translateY(-6px) scale(1.05);
   color: #ffc72c;
   box-shadow: 0 0 35px rgba(255, 199, 44, 0.35);
+}
+
+.result-box {
+  margin-top: 36px;
+  padding: 42px;
+  border: 1px solid rgba(255, 199, 44, 0.55);
+  border-radius: 28px;
+  background: linear-gradient(145deg, #17100b, #050505);
+  box-shadow: 0 0 35px rgba(216, 164, 106, 0.18);
+}
+
+.result-box h2 {
+  margin: 20px 0;
+  font-size: 30px;
+  font-weight: 400;
+  color: #f2c99b;
+}
+
+.result-box p {
+  margin-top: 24px;
+  color: #9f7550;
+}
+
+@media (max-width: 700px) {
+  .vote-card {
+    padding: 72px 34px 66px 58px;
+  }
+
+  .vote-pole {
+    height: 330px;
+  }
+
+  .hint {
+    font-size: 13px;
+  }
+
+  .y-title {
+    left: 4px;
+  }
 }
