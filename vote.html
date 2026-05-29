@@ -1,15 +1,39 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>投票與統計</title>
-  <link rel="stylesheet" href="page.css">
+  <link rel="stylesheet" href="vote.css" />
 </head>
 <body>
-  <main>
+  <main class="page">
     <a href="index.html" class="back">← Back</a>
-    <h1>投票與統計結果</h1>
-    <p>這裡將放置麥當勞頻率、喜好程度與投票結果視覺化。</p>
+
+    <section class="title">
+      <h1>VOTE MAP</h1>
+      <p>新竹人的麥當勞生活圖鑑</p>
+    </section>
+
+    <section class="vote-card">
+      <div class="axis-label y-label">頻率 0 → 5</div>
+      <div class="axis-label x-label">喜好程度 -5 → 5</div>
+
+      <div id="votePole" class="vote-pole">
+        <div class="center-line-x"></div>
+        <div class="center-line-y"></div>
+      </div>
+
+      <p class="hint">
+        點擊圖上任一位置，釘上你的投票點。
+      </p>
+    </section>
+
+    <a href="result.html" class="blob-button">
+      查看平均結果
+    </a>
   </main>
+
+  <script src="vote.js"></script>
 </body>
 </html>
