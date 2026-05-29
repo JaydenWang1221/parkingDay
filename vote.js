@@ -5,7 +5,10 @@ let votes = JSON.parse(localStorage.getItem("votes"));
 
 if (!votes) {
   votes = Array.from({ length: 15 }, () => ({
-    like: Math.floor(Math.random() * 11) - 5,
+    // Random 喜好程度: only 3, 4, 5
+    like: Math.floor(Math.random() * 3) + 3,
+
+    // Random 品嚐頻率: 0 to 5
     freq: Math.floor(Math.random() * 6)
   }));
 
