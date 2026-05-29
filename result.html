@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>平均結果</title>
+  <link rel="stylesheet" href="vote.css" />
+</head>
+<body>
+  <main class="page">
+    <a href="vote.html" class="back">← Back</a>
+
+    <section class="title">
+      <h1>RESULT</h1>
+      <p>平均投票結果</p>
+    </section>
+
+    <section class="vote-card">
+      <h2 id="avgLike">喜好程度平均：</h2>
+      <h2 id="avgFreq">頻率平均：</h2>
+      <p class="hint">此結果包含15位隨機參與者與你的投票。</p>
+    </section>
+  </main>
+
+  <script>
+    const votes = JSON.parse(localStorage.getItem("votes")) || [];
+    const myVote = JSON.parse(localStorage.getItem("myVote"));
+
+    const allVotes = myVote ? [...votes, myVote] : votes;
+
+    const avgLike = allVotes.reduce((sum, v) => sum + v.like, 0) / allVotes.length;
+    const avgFreq = allVotes.reduce((sum, v) => sum + v.freq, 0) / allVotes.length;
+
+    document.getElementById("avgLike").textContent =
+      `喜好程度平均：${avgLike.toFixed(2)} / 5`;
+
+    document.getElementById("avgFreq").textContent =
+      `頻率平均：${avgFreq.toFixed(2)} / 5`;
+  </script>
+</body>
+</html>
