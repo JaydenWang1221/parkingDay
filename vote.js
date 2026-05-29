@@ -1,4 +1,5 @@
 const pole = document.getElementById("votePole");
+const submitButton = document.getElementById("submitVote");
 
 let votes = JSON.parse(localStorage.getItem("votes"));
 
@@ -7,8 +8,11 @@ if (!votes) {
     like: Math.floor(Math.random() * 11) - 5,
     freq: Math.floor(Math.random() * 6)
   }));
+
   localStorage.setItem("votes", JSON.stringify(votes));
 }
+
+let tempVote = null;
 
 function plotDot(vote, isMine = false) {
   const dot = document.createElement("div");
@@ -23,6 +27,25 @@ function plotDot(vote, isMine = false) {
   pole.appendChild(dot);
 }
 
+function addAxisNumbers() {
+  for (let i = -5; i <= 5; i++) {
+    const num = document.createElement("div");
+    num.className = "axis-number x-number";
+    num.textContent = i;
+    num.style.left = `${((i + 5) / 10) * 100}%`;
+    pole.appendChild(num);
+  }
+
+  for (let i = 0; i <= 5; i++) {
+    const num = document.createElement("div");
+    num.className = "axis-number y-number";
+    num.textContent = i;
+    num.style.bottom = `${(i / 5) * 100}%`;
+    pole.appendChild(num);
+  }
+}
+
+addAxisNumbers();
 votes.forEach(vote => plotDot(vote));
 
 pole.addEventListener("click", event => {
@@ -34,7 +57,7 @@ pole.addEventListener("click", event => {
   const like = Math.round((x / rect.width) * 10 - 5);
   const freq = Math.round((1 - y / rect.height) * 5);
 
-  const myVote = {
+  tempVote = {
     like: Math.max(-5, Math.min(5, like)),
     freq: Math.max(0, Math.min(5, freq))
   };
@@ -42,6 +65,15 @@ pole.addEventListener("click", event => {
   const oldMyDot = document.querySelector(".my-dot");
   if (oldMyDot) oldMyDot.remove();
 
-  localStorage.setItem("myVote", JSON.stringify(myVote));
-  plotDot(myVote, true);
+  plotDot(tempVote, true);
+});
+
+submitButton.addEventListener("click", () => {
+  if (!tempVote) {
+    alert("請先在圖上點選你的投票位置！");
+    return;
+  }
+
+  localStorage.setItem("myVote", JSON.stringify(tempVote));
+  alert("投票成功！");
 });
