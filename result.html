@@ -15,10 +15,11 @@
       <p>平均投票結果</p>
     </section>
 
-    <section class="vote-card">
+    <section class="result-box">
       <h2 id="avgLike">喜好程度平均：</h2>
-      <h2 id="avgFreq">頻率平均：</h2>
-      <p class="hint">此結果包含15位隨機參與者與你的投票。</p>
+      <h2 id="avgFreq">品嚐頻率平均：</h2>
+      <h2 id="count">投票人數：</h2>
+      <p>結果只會在使用者按下「提交投票」後，才加入平均計算。</p>
     </section>
   </main>
 
@@ -35,7 +36,10 @@
       `喜好程度平均：${avgLike.toFixed(2)} / 5`;
 
     document.getElementById("avgFreq").textContent =
-      `頻率平均：${avgFreq.toFixed(2)} / 5`;
+      `品嚐頻率平均：${avgFreq.toFixed(2)} / 5`;
+
+    document.getElementById("count").textContent =
+      `投票人數：${allVotes.length} 人`;
   </script>
 </body>
 </html>
