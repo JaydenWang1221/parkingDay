@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>平均結果</title>
-  <link rel="stylesheet" href="vote.css" />
+
+  <link rel="stylesheet" href="vote.css">
 </head>
 <body>
+
   <main class="page">
-    <a href="vote.html" class="back">← Back</a>
+
+    <a href="vote.html?keep=1" class="back">← Back</a>
 
     <section class="title">
       <h1>RESULT</h1>
@@ -16,21 +19,45 @@
     </section>
 
     <section class="result-box">
-      <h2 id="avgLike">喜好程度平均：</h2>
-      <h2 id="avgFreq">品嚐頻率平均：</h2>
-      <h2 id="count">投票人數：</h2>
-      <p>結果只會在使用者按下「提交投票」後，才加入平均計算。</p>
+
+      <h2 id="avgLike">
+        喜好程度平均：
+      </h2>
+
+      <h2 id="avgFreq">
+        品嚐頻率平均：
+      </h2>
+
+      <h2 id="count">
+        投票人數：
+      </h2>
+
+      <p>
+        初始樣本包含 15 位隨機受訪者。<br>
+        使用者可重複投票，每次提交都會加入統計結果。
+      </p>
+
     </section>
+
   </main>
 
   <script>
-    const votes = JSON.parse(localStorage.getItem("votes")) || [];
-    const myVote = JSON.parse(localStorage.getItem("myVote"));
 
-    const allVotes = myVote ? [...votes, myVote] : votes;
+    const votes =
+      JSON.parse(localStorage.getItem("votes")) || [];
 
-    const avgLike = allVotes.reduce((sum, v) => sum + v.like, 0) / allVotes.length;
-    const avgFreq = allVotes.reduce((sum, v) => sum + v.freq, 0) / allVotes.length;
+    const userVotes =
+      JSON.parse(localStorage.getItem("userVotes")) || [];
+
+    const allVotes = [...votes, ...userVotes];
+
+    const avgLike =
+      allVotes.reduce((sum, v) => sum + v.like, 0)
+      / allVotes.length;
+
+    const avgFreq =
+      allVotes.reduce((sum, v) => sum + v.freq, 0)
+      / allVotes.length;
 
     document.getElementById("avgLike").textContent =
       `喜好程度平均：${avgLike.toFixed(2)} / 5`;
@@ -40,6 +67,8 @@
 
     document.getElementById("count").textContent =
       `投票人數：${allVotes.length} 人`;
+
   </script>
+
 </body>
 </html>

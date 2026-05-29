@@ -97,12 +97,51 @@ body {
 
 .dot {
   position: absolute;
-  width: 11px;
-  height: 11px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
-  background: #d8a46a;
-  box-shadow: 0 0 12px rgba(216, 164, 106, 0.8);
   transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: bold;
+  color: #050505;
+  z-index: 4;
+}
+
+.dot-level-1 {
+  background: #9f7550;
+  box-shadow: 0 0 10px rgba(159, 117, 80, 0.7);
+}
+
+.dot-level-2 {
+  background: #d8a46a;
+  box-shadow: 0 0 14px rgba(216, 164, 106, 0.8);
+}
+
+.dot-level-3 {
+  background: #ffc72c;
+  box-shadow: 0 0 18px rgba(255, 199, 44, 0.9);
+}
+
+.dot-level-4 {
+  background: #ff8c00;
+  box-shadow: 0 0 22px rgba(255, 140, 0, 0.9);
+}
+
+.dot-level-5 {
+  background: #ff3b1f;
+  box-shadow: 0 0 28px rgba(255, 59, 31, 1);
+}
+
+.preview-dot {
+  width: 22px;
+  height: 22px;
+  background: #ffffff;
+  border: 3px solid #ffc72c;
+  box-shadow: 0 0 24px rgba(255, 199, 44, 1);
+  z-index: 9;
 }
 
 .my-dot {
@@ -122,14 +161,14 @@ body {
 }
 
 .y-title {
-  left: 18px;
+  left: -20px;
   top: 45%;
   transform: rotate(-90deg);
 }
 
 .x-title {
-  bottom: 32px;
-  left: 50%;
+  bottom: 15px;
+  left: 52%;
   transform: translateX(-50%);
 }
 

@@ -1,33 +1,66 @@
 const pole = document.getElementById("votePole");
 const submitButton = document.getElementById("submitVote");
 
-let votes = JSON.parse(localStorage.getItem("votes"));
+const params = new URLSearchParams(window.location.search);
+const keepSameVotes = params.get("keep") === "1";
 
-if (!votes) {
-  votes = Array.from({ length: 15 }, () => ({
-    // Random 喜好程度: only 3, 4, 5
-    like: Math.floor(Math.random() * 3) + 3,
+let votes;
+let userVotes;
 
-    // Random 品嚐頻率: 0 to 5
-    freq: Math.floor(Math.random() * 6)
-  }));
+if (keepSameVotes && localStorage.getItem("votes")) {
+  votes = JSON.parse(localStorage.getItem("votes"));
+  userVotes = JSON.parse(localStorage.getItem("userVotes")) || [];
+} else {
+  let avgLike;
+
+  do {
+    votes = Array.from({ length: 15 }, () => ({
+      like: Math.floor(Math.random() * 11) - 5,
+      freq: Math.floor(Math.random() * 6)
+    }));
+
+    avgLike = votes.reduce((sum, v) => sum + v.like, 0) / votes.length;
+  } while (avgLike <= 2);
+
+  userVotes = [];
 
   localStorage.setItem("votes", JSON.stringify(votes));
+  localStorage.setItem("userVotes", JSON.stringify(userVotes));
 }
 
 let tempVote = null;
 
-function plotDot(vote, isMine = false) {
-  const dot = document.createElement("div");
-  dot.className = isMine ? "dot my-dot" : "dot";
+function getDotLevel(count) {
+  if (count === 1) return "dot-level-1";
+  if (count === 2) return "dot-level-2";
+  if (count === 3) return "dot-level-3";
+  if (count === 4) return "dot-level-4";
+  return "dot-level-5";
+}
 
-  const xPercent = ((vote.like + 5) / 10) * 100;
-  const yPercent = 100 - (vote.freq / 5) * 100;
+function renderDots() {
+  document.querySelectorAll(".dot").forEach(dot => dot.remove());
 
-  dot.style.left = `${xPercent}%`;
-  dot.style.top = `${yPercent}%`;
+  const allVotes = [...votes, ...userVotes];
+  const pointCount = {};
 
-  pole.appendChild(dot);
+  allVotes.forEach(vote => {
+    const key = `${vote.like},${vote.freq}`;
+    pointCount[key] = (pointCount[key] || 0) + 1;
+  });
+
+  Object.entries(pointCount).forEach(([key, count]) => {
+    const [like, freq] = key.split(",").map(Number);
+
+    const dot = document.createElement("div");
+    dot.className = `dot ${getDotLevel(count)}`;
+    dot.textContent = count > 1 ? count : "";
+
+    dot.style.left = `${((like + 5) / 10) * 100}%`;
+    dot.style.top = `${100 - (freq / 5) * 100}%`;
+
+    pole.appendChild(dot);
+  });
 }
 
 function addAxisNumbers() {
@@ -49,7 +82,7 @@ function addAxisNumbers() {
 }
 
 addAxisNumbers();
-votes.forEach(vote => plotDot(vote));
+renderDots();
 
 pole.addEventListener("click", event => {
   const rect = pole.getBoundingClientRect();
@@ -57,18 +90,19 @@ pole.addEventListener("click", event => {
   const x = event.clientX - rect.left;
   const y = event.clientY - rect.top;
 
-  const like = Math.round((x / rect.width) * 10 - 5);
-  const freq = Math.round((1 - y / rect.height) * 5);
-
   tempVote = {
-    like: Math.max(-5, Math.min(5, like)),
-    freq: Math.max(0, Math.min(5, freq))
+    like: Math.max(-5, Math.min(5, Math.round((x / rect.width) * 10 - 5))),
+    freq: Math.max(0, Math.min(5, Math.round((1 - y / rect.height) * 5)))
   };
 
-  const oldMyDot = document.querySelector(".my-dot");
-  if (oldMyDot) oldMyDot.remove();
+  document.querySelectorAll(".preview-dot").forEach(dot => dot.remove());
 
-  plotDot(tempVote, true);
+  const preview = document.createElement("div");
+  preview.className = "dot preview-dot";
+  preview.style.left = `${((tempVote.like + 5) / 10) * 100}%`;
+  preview.style.top = `${100 - (tempVote.freq / 5) * 100}%`;
+
+  pole.appendChild(preview);
 });
 
 submitButton.addEventListener("click", () => {
@@ -77,6 +111,11 @@ submitButton.addEventListener("click", () => {
     return;
   }
 
-  localStorage.setItem("myVote", JSON.stringify(tempVote));
+  userVotes.push(tempVote);
+  localStorage.setItem("userVotes", JSON.stringify(userVotes));
+
+  tempVote = null;
+  renderDots();
+
   alert("投票成功！");
 });
