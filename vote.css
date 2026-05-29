@@ -136,7 +136,7 @@ body {
 .hint {
   position: absolute;
   left: 50%;
-  top: 48px;
+  top: 24px;
   transform: translateX(-50%);
 
   color: #9f7550;
