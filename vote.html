@@ -16,22 +16,21 @@
     </section>
 
     <section class="vote-card">
-      <div class="axis-label y-label">頻率 0 → 5</div>
-      <div class="axis-label x-label">喜好程度 -5 → 5</div>
+      <div class="axis-title y-title">品嚐頻率</div>
+      <div class="axis-title x-title">喜好程度</div>
+      <p class="hint">點擊圖上任一位置，釘上你的投票點。</p>
 
       <div id="votePole" class="vote-pole">
-        <div class="center-line-x"></div>
-        <div class="center-line-y"></div>
+        <div class="axis-x"></div>
+        <div class="axis-y"></div>
+        <div class="zero-line"></div>
       </div>
-
-      <p class="hint">
-        點擊圖上任一位置，釘上你的投票點。
-      </p>
     </section>
 
-    <a href="result.html" class="blob-button">
-      查看平均結果
-    </a>
+    <div class="button-row">
+      <button id="submitVote" class="blob-button">提交投票</button>
+      <a href="result.html" class="blob-button">查看平均結果</a>
+    </div>
   </main>
 
   <script src="vote.js"></script>
